@@ -29,7 +29,7 @@ pipelines:
                       - -e
                       - env=dev
                       - -e
-                      - role_name_backend
+                      - role_name=backend
                       - expense.yml
                     command: ansible-playbook
 
@@ -66,7 +66,7 @@ pipelines:
                       - -e
                       - env=prod
                       - -e
-                      - role_name_backend
+                      - role_name=backend
                       - expense.yml
                     command: ansible-playbook
                     run_if: passed
