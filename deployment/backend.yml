@@ -21,7 +21,7 @@ pipelines:
                 - exec:
                     arguments:
                       - -i
-                      - backend-dev.devopsengineer.online,
+                      - backend-dev.devopsengineer2.online,
                       - -e
                       - ansible_user=ec2-user
                       - -e
@@ -58,7 +58,7 @@ pipelines:
                 - exec:
                     arguments:
                       - -i
-                      - backend-prod.devopsengineer.online,
+                      - backend-prod.devopsengineer2.online,
                       - -e
                       - ansible_user=ec2-user
                       - -e
