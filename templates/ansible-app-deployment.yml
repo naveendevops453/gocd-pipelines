@@ -1,0 +1,73 @@
+format_version: 10
+pipelines:
+  ansible-app-deployment:
+    group: Templates
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-916dd6a:
+        git: https://github.com/naveendevops453/expense-anisble
+        shallow_clone: true
+        auto_update: true
+        branch: main
+    secure_variables:
+      SSH_PASSWORD: "AES:5Lr6oPcneduyEBV9/q+3qg==:D7QBStsbr/NJykNvBkxGLQ=="
+    stages:
+      - DEV:
+          fetch_materials: true
+          approval:
+            type: manual
+          environment_variables:
+            env: dev
+          jobs:
+            ansible:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - run.sh
+                    command: bash
+
+      - QA:
+          fetch_materials: true
+          approval:
+            type: manual
+          jobs:
+            ansible:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - -l
+                    command: ls
+                    run_if: passed
+
+      - STAGE:
+          fetch_materials: true
+          approval:
+            type: manual
+          jobs:
+            ansible:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - -l
+                    command: ls
+                    run_if: passed
+
+      - PROD:
+          fetch_materials: true
+          approval:
+            type: manual
+          environment_variables:
+            env: prod
+          jobs:
+            ansible:
+              timeout: 0
+              tasks:
+                - exec:
+                    arguments:
+                      - run.sh
+                    command: bash
