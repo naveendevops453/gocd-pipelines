@@ -13,27 +13,21 @@ pipelines:
         branch: main
     secure_variables:
       SSH_PASSWORD: "AES:5Lr6oPcneduyEBV9/q+3qg==:D7QBStsbr/NJykNvBkxGLQ=="
+    environment_variables:
+      component: mysql
     stages:
       - DEV:
           fetch_materials: true
+          environment_variables:
+            env: dev
           jobs:
             ansible:
               timeout: 0
               tasks:
                 - exec:
                     arguments:
-                      - -i
-                      - mysql-dev.devopsengineer2.online,
-                      - -e
-                      - ansible_user=ec2-user
-                      - -e
-                      - ansible_password=${SSH_PASSWORD}
-                      - -e
-                      - env=dev
-                      - -e
-                      - role_name=mysql
-                      - expense.yml
-                    command: ansible-playbook
+                      - run.sh
+                    command: bash
 
       - QA:
           fetch_materials: true
@@ -65,24 +59,13 @@ pipelines:
 
       - PROD:
           fetch_materials: true
-          approval:
-            type: manual
+          environment_variables:
+            env: prod
           jobs:
             ansible:
               timeout: 0
               tasks:
                 - exec:
                     arguments:
-                      - -i
-                      - mysql-prod.devopsengineer2.online,
-                      - -e
-                      - ansible_user=ec2-user
-                      - -e
-                      - ansible_password=${SSH_PASSWORD}
-                      - -e
-                      - env=prod
-                      - -e
-                      - role_name=mysql
-                      - expense.yml
-                    command: ansible-playbook
-                    run_if: passed
+                      - run.sh
+                    command: bash
