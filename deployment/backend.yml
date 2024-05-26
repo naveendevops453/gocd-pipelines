@@ -70,4 +70,3 @@ pipelines:
                       - expense.yml
                     command: ansible-playbook
                     run_if: passed
-
