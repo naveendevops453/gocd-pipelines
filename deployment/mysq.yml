@@ -18,6 +18,8 @@ pipelines:
     stages:
       - DEV:
           fetch_materials: true
+          approval:
+            type: manual
           environment_variables:
             env: dev
           jobs:
@@ -59,6 +61,8 @@ pipelines:
 
       - PROD:
           fetch_materials: true
+          approval:
+            type: manual
           environment_variables:
             env: prod
           jobs:
