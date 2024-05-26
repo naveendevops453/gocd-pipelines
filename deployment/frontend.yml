@@ -1,6 +1,6 @@
 format_version: 10
 pipelines:
-  backend:
+  frontend:
     group: App-Deployments
     label_template: ${COUNT}
     lock_behavior: none
@@ -21,7 +21,7 @@ pipelines:
                 - exec:
                     arguments:
                       - -i
-                      - backend-dev.devopsengineer2.online,
+                      - frontend-dev.devopsengineer2.online,
                       - -e
                       - ansible_user=ec2-user
                       - -e
@@ -29,7 +29,7 @@ pipelines:
                       - -e
                       - env=dev
                       - -e
-                      - role_name=backend
+                      - role_name=frontend
                       - expense.yml
                     command: ansible-playbook
 
@@ -72,7 +72,7 @@ pipelines:
                 - exec:
                     arguments:
                       - -i
-                      - backend-prod.devopsengineer2.online,
+                      - frontend-prod.devopsengineer2.online,
                       - -e
                       - ansible_user=ec2-user
                       - -e
@@ -80,7 +80,7 @@ pipelines:
                       - -e
                       - env=prod
                       - -e
-                      - role_name=backend
+                      - role_name=frontend
                       - expense.yml
                     command: ansible-playbook
                     run_if: passed
