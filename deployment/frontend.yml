@@ -11,27 +11,25 @@ pipelines:
         shallow_clone: true
         auto_update: true
         branch: main
+    secure_variables:
+      SSH_PASSWORD: "AES:5Lr6oPcneduyEBV9/q+3qg==:D7QBStsbr/NJykNvBkxGLQ=="
+    environment_variables:
+      component: frontend
     stages:
       - DEV:
           fetch_materials: true
+          approval:
+            type: manual
+          environment_variables:
+            env: dev
           jobs:
             ansible:
               timeout: 0
               tasks:
                 - exec:
                     arguments:
-                      - -i
-                      - frontend-dev.devopsengineer2.online,
-                      - -e
-                      - ansible_user=ec2-user
-                      - -e
-                      - ansible_password=DevOps321
-                      - -e
-                      - env=dev
-                      - -e
-                      - role_name=frontend
-                      - expense.yml
-                    command: ansible-playbook
+                      - run.sh
+                    command: bash
 
       - QA:
           fetch_materials: true
@@ -65,22 +63,13 @@ pipelines:
           fetch_materials: true
           approval:
             type: manual
+          environment_variables:
+            env: prod
           jobs:
             ansible:
               timeout: 0
               tasks:
                 - exec:
                     arguments:
-                      - -i
-                      - frontend-prod.devopsengineer2.online,
-                      - -e
-                      - ansible_user=ec2-user
-                      - -e
-                      - ansible_password=DevOps321
-                      - -e
-                      - env=prod
-                      - -e
-                      - role_name=frontend
-                      - expense.yml
-                    command: ansible-playbook
-                    run_if: passed
+                      - run.sh
+                    command: bash
