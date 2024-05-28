@@ -1,0 +1,31 @@
+format_version: 10
+pipelines:
+  expense-destroy:
+    group: Terraform
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-916dd6a:
+        git: https://github.com/naveendevops453/expense-terraform
+        shallow_clone: true
+        auto_update: true
+        branch: main
+    stages:
+      - DEV:
+          fetch_materials: true
+          environment_variables: { env: dev }
+          jobs:
+            terraform:
+              tasks:
+                - exec: { command: terraform ,  arguments: [ "init", "-backend-config", "env-dev/state.tfvars" ] }
+                - exec: { command: terraform,  arguments: [ "destroy", "-var-file", "env-dev/main.tfvars", "-auto-approve" ] }
+
+      - PROD:
+          fetch_materials: true
+          environment_variables: { env: prod }
+          jobs:
+            terraform:
+              tasks:
+                - exec: { command: terraform ,  arguments: [ "init", "-backend-config", "env-dev/state.tfvars" ] }
+                - exec: { command: terraform,  arguments: [ "destroy", "-var-file", "env-dev/main.tfvars", "-auto-approve" ] }
