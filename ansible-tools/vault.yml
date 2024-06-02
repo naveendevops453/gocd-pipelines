@@ -1,0 +1,30 @@
+format_version: 10
+pipelines:
+  vault:
+    group: Tools
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-916dd6a:
+        git: https://github.com/naveendevops453/tools-automation.git
+        shallow_clone: true
+        auto_update: true
+        branch: main
+    secure_variables:
+      SSH_PASSWORD: "AES:5Lr6oPcneduyEBV9/q+3qg==:D7QBStsbr/NJykNvBkxGLQ=="
+    environment_variables:
+      tool_name: vault
+    stages:
+      - DEV:
+          fetch_materials: true
+          approval:
+            type: manual
+          jobs:
+            ansible:
+              timeout: 0
+              tasks:
+                - exec:
+                    command: bash
+                    arguments:
+                      - setup-tool-service.sh
